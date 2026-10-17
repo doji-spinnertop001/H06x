@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>H06x</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✨</text></svg>">
+    <style>
+        /* Remove default margins and scrollbars for a true fullscreen look */
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: #000; /* Dark background while loading */
+            font-family: sans-serif;
+        }
+
+        /* Make the iframe take up the entire viewport */
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: block;
+        }
+
+        /* Error message styling just in case something goes wrong */
+        #error-msg {
+            color: #ff4d4d;
+            text-align: center;
+            padding-top: 20%;
+            font-size: 1.2rem;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="error-msg">Failed to decode or load the URL.</div>
+    <iframe id="fullscreen-frame" src="" allowfullscreen></iframe>
+
+    <script>
+        const hexString = "68747470733a2f2f68303678302e76657263656c2e6170702f";
+
+        // Function to convert Hex string back to UTF-8 Normal Text
+        function hexToText(hex) {
+            let str = '';
+            for (let i = 0; i < hex.length; i += 2) {
+                // Take two hex characters, convert to an integer, then to a character
+                str += String.fromCharCode(parseInt(hex.substr(i, 2), 16));
+            }
+            return str;
+        }
+
+        try {
+            // Decode the hex string
+            const decodedUrl = hexToText(hexString);
+            
+            // Inject the decoded URL directly into the iframe source
+            document.getElementById('fullscreen-frame').src = decodedUrl;
+        } catch (error) {
+            console.error("Decoding error:", error);
+            document.getElementById('error-msg').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
